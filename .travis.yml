@@ -81,19 +81,20 @@ before_script:
 install:
   - pip install coveralls
   - pip install bandit
+  - pip install tox
 
 script:
+  - tox -e "{$TOXENV}" -local bandit
   - make test
-  - bandit -r . -ll -ii -x lemur/tests/,docs
   - make test-js
 
 after_success:
   - coveralls
 
-notifications:
-  email:
-    recipients:
-      - lemur@netflix.com
-    on_success: never
-    on_failure: always
-    on_cancel: never # Dependbot cancels Travis before rebase and triggers too many emails
+#notifications:
+#  email:
+#    recipients:
+#      - lemur@netflix.com
+#    on_success: never
+#    on_failure: always
+#    on_cancel: never # Dependbot cancels Travis before rebase and triggers too many emails
